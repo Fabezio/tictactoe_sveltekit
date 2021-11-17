@@ -5,7 +5,7 @@
 <script>
 	import Counter from '$lib/Counter.svelte';
 	const title = "morpion".toUpperCase()
-	let symbols = [
+	let tiles = [
 		"",
 		"",
 		"",
@@ -16,12 +16,27 @@
 		"",
 		"",
 	]
+	let turn = 0
+	const symbols={
+		cross: "fas fa-times", 
+		circle: "far fa-circle",
+	}
+
+		
 	function fillTile(pos, sym) {
+		turn++
+
 		console.log(pos, sym)
-		symbols[pos]=sym
-		return symbols
+		const {cross, circle} = symbols
+		sym=(turn%2 === 0 ? cross : circle)
+
+		tiles[pos]=sym
+
+		
+		return tiles
 
 	}
+
 	
 </script>
 
@@ -35,17 +50,11 @@
 	</h1>
 	<!-- <div class="playboard"> -->
 		<div class="grid">
-			{#each symbols as symbol,i}
-			<div on:click={()=>fillTile(i, "ok")} class="cell">{symbol}</div>
+			{#each tiles as tile,i}
+			<div on:click={()=>fillTile(i, symbols.circle)} class="tile"><span class="{tile} fa-4x"></span></div>
+			<!-- <div on:click={()=>fillTile(i, "ok")} class="tile">{tile}</div> -->
 			{/each}
-			<!-- <div class="cell">token</div>
-			<div class="cell">token</div>
-			<div class="cell">token</div>
-			<div class="cell">token</div>
-			<div class="cell">token</div>
-			<div class="cell">token</div>
-			<div class="cell">token</div>
-			<div class="cell">token</div> -->
+			
 		</div>
 	<!-- </div> -->
 
@@ -73,7 +82,7 @@
 		/* border-top: 2px solid #444;
 		border-left: 2px solid #444; */
 	}
-	.cell {
+	.tile {
 		display: flex;
 		width: 100px;
 		height: 100px;
@@ -81,15 +90,24 @@
 		background: white;
 		align-items: center;
 		justify-content: center;
-		font-size: xx-large;
+		/* font-size: xx-large; */
 		border: 1px solid hsla(0, 5%, 50%, .5);
 
 		/* border-bottom: 2px solid #444;
 		border-right: 2px solid #444; */
 		
 	}
+	h1 {
+		font-size: 2.5em;
+		font-weight: 400;
+		text-align: center;
+	}
+
+	@media screen and (min-width: 480px) {
+
+	}
 	/* 
-	.cell div {
+	.tile div {
 		place-self: center center; 
 		align-self: center;
 		justify-self: center;
